@@ -34,9 +34,11 @@ func runAction(m model) <-chan tea.Msg {
 		Logs.InfoLogger = log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
 		Logs.WarningLogger = log.New(file, "WARNING: ", log.Ldate|log.Ltime|log.Lshortfile)
 		Logs.ErrorLogger = log.New(file, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+		Logs.InfoLogger.Println("diretorio " + m.Dir)
 
 		cmd := exec.Command("composer", "require", "monolog/monolog")
-		cmd.Dir = ".." //diretorio anterior ao projeto
+		//cmd.Dir = ".." //diretorio anterior ao projeto
+		cmd.Dir = m.Dir //diretorio anterior ao projeto
 		err = cmd.Run()
 		if err != nil {
 			log.Panic(err)

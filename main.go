@@ -7,6 +7,7 @@ package main
 // implementing a progress bar from scratch here.
 
 import (
+	"flag"
 	"fmt"
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/lipgloss"
@@ -39,10 +40,13 @@ var (
 var titleStyle2 = lipgloss.NewStyle().Padding(0, 4).Bold(true).Background(lipgloss.Color("#4169E1")).Foreground(lipgloss.Color("#00FA9A")).MarginBottom(1)
 
 func main() {
+	var dir string
+	flag.StringVar(&dir, "dir", "", "a string")
+	flag.Parse()
 	s := spinner.New()
 	s.Spinner = spinner.Dot
 	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("#00FA9A"))
-	initialModel := model{spinner: s}
+	initialModel := model{spinner: s, Dir: dir}
 	p := tea.NewProgram(initialModel)
 
 	if err := p.Start(); err != nil {
@@ -68,6 +72,7 @@ func frame() tea.Cmd {
 
 type model struct {
 	Choice     int
+	Dir        string
 	Chosen     bool
 	Ticks      int
 	Frames     int
